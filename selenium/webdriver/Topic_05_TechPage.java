@@ -29,6 +29,9 @@ public class Topic_05_TechPage {
 		Assert.assertEquals(techPageUrl, "http://www.live.techpanda.org");
 		WebElement myAccountfooter = driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']"));
 		myAccountfooter.click();
+		// Chạy được nhưng ko phổ biến
+		WebElement myAccountfooter2= driver.findElement(By.xpath("//div[@class='footer']")).findElement(By.xpath("//a[@title='My Account'"));
+		myAccountfooter2.click();
 		String techPageUrllogin = driver.getCurrentUrl();
 		Assert.assertEquals(techPageUrllogin, "http://www.live.techpanda.org/index.php/customer/account/login");
 		WebElement createAnAcountbtn = driver.findElement(By.xpath("//span[contains(text(),'Create An Account')"));
