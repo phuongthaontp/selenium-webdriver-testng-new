@@ -45,7 +45,9 @@ public class Topic_05_Element_Part_I {
 		WebElement emailTextbox = driver.findElement(By.cssSelector("#email"));
 		emailTextbox.clear();
 		
-		
+		// Chạy được nhưng ko phổ biến
+		WebElement myAccountfooter2= driver.findElement(By.xpath("//div[@class='footer']")).findElement(By.xpath("//a[@title='My Account'"));
+		myAccountfooter2.click();
 		
 	}
 	
