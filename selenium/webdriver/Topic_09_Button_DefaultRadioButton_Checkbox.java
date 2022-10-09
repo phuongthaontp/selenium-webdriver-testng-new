@@ -90,32 +90,96 @@ public class Topic_09_Button_DefaultRadioButton_Checkbox {
 
 
 	}
-/*	@Test
+	@Test
 	public void TC_02_DefaultCheckbox_RadioButton() {
 		driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
-		driver.findElement(By.xpath("//a[text()='Đăng nhập']/parent::li")).click();
-		
+	
 		By dualZoneAirConditioningBy = By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input[@type='checkbox']");
+		checkToCheckbox(dualZoneAirConditioningBy);
+		sleepInSecond(2);
+		Assert.assertTrue(isElementSelected(dualZoneAirConditioningBy));
+		uncheckToCheckbox(dualZoneAirConditioningBy);
+		sleepInSecond(2);
+		Assert.assertFalse(isElementSelected(dualZoneAirConditioningBy));		
+		
+		driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
+		By twoDotZeroPetrolBy = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::input[@type='radio']");
+		checkToRadio(twoDotZeroPetrolBy);
+		sleepInSecond(2);
+		Assert.assertTrue(isElementSelected(twoDotZeroPetrolBy));
 	}
 
-    public void checkUncheckedButton(By by) {
+    public void checkToCheckbox(By by) {
         	if (!driver.findElement(by).isSelected());
         	driver.findElement(by).click();
         	
         }
-		
-*/	
-
+    public void uncheckToCheckbox(By by) {
+    	if (driver.findElement(by).isSelected());
+    	driver.findElement(by).click();
+    	
+    }	
+    public void checkToRadio(By by) {
+    	if (!driver.findElement(by).isSelected());
+    	driver.findElement(by).click();
+    }
+    public boolean isElementSelected(By by) {
+    	if (driver.findElement(by).isSelected()) {
+    	return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    public boolean isElementDisplayed(By by) {
+    	if (driver.findElement(by).isDisplayed()) {
+    	return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    public boolean isElementEnabled(By by) {
+    	if (driver.findElement(by).isEnabled()) {
+    	return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 	@Test
-	public void TC_03_CustomCheckBox_RadioButton() {
-
-	}
-
+	public void TC_04_Multiple_CheckBox() {
+		driver.get("https://automationfc.github.io/multiple-fields/");
+		List<WebElement> listCheckbox = driver.findElements(By.cssSelector("input[type='checkbox"));
+		System.out.println("Checkbox size= "+listCheckbox.size());
+		
+		// Action-select
+		for (WebElement list : listCheckbox) {
+			if (!list.isSelected()) {
+			list.click();
+			sleepInSecond(1);
+			}
+		}
+		// Verify-selected
+		for (WebElement list : listCheckbox) {
+			Assert.assertTrue(list.isSelected());
+		}
+		// Action-deselect
+		for (WebElement list : listCheckbox) {
+			if (list.isSelected()) {
+				list.click();
+			}
+		}
+		// Verify-deselected
+		for (WebElement list : listCheckbox) {
+				Assert.assertFalse(list.isSelected());
+			}
+		}
+	
 	@Test
 	public void TC_04_CustomCheckBox_RadioButton() {
 
 	}
-*/
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
