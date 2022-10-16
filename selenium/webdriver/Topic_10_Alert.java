@@ -26,6 +26,9 @@ public class Topic_10_Alert {
 	WebDriverWait expliciWait;
 	JavascriptExecutor jsExecutor;
 	String projectPath = System.getProperty("user.dir");
+	String authenChrome = projectPath + "\\autoITScript\\authen_chrome.exe";
+	String authenFirefox = projectPath + "\\autoITScript\\authen_firefox.exe";
+	
 	String osName = System.getProperty("os.name");
 	Alert alert;
 	@BeforeClass
@@ -146,6 +149,27 @@ public class Topic_10_Alert {
 		String basicAuthenLink = driver.findElement(By.xpath("//a[text()='Basic Auth']")).getAttribute("href");
 		driver.get(getAuthenticateLink(basicAuthenLink, username, password));
 		sleepInSecond(3);
+		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+	}
+	
+	@Test
+	public void TC_04_Authentication_Alert_III() {
+		String username = "admin";
+		String password ="admin";
+		driver.get("http://the-internet.herokuapp.com/");
+		
+		//Script sẽ chạy trước để chờ Authen alert bật lên sau
+		if(driver.toString().contains("Firefox")) {
+	
+		Runtime.getRuntime().exec(new String[] { authenFirefox, username, password });
+		}
+		else
+		{
+		Runtime.getRuntime().exec(new String[] { authenChrome, username, password });	
+		}	
+		driver.findElement(By.xpath("//a[text()='Basic Auth']")).click();
+		sleepInSecond(8);
+
 		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
 	}
 	
