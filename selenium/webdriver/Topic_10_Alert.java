@@ -161,11 +161,11 @@ public class Topic_10_Alert {
 		//Script sẽ chạy trước để chờ Authen alert bật lên sau
 		if(driver.toString().contains("Firefox")) {
 	
-		Runtime.getRuntime().exec(new String[] { authenFirefox, username, password });
+		//Runtime.getRuntime().exec(new String[] { authenFirefox, username, password });
 		}
 		else
 		{
-		Runtime.getRuntime().exec(new String[] { authenChrome, username, password });	
+		//Runtime.getRuntime().exec(new String[] { authenChrome, username, password });	
 		}	
 		driver.findElement(By.xpath("//a[text()='Basic Auth']")).click();
 		sleepInSecond(8);
