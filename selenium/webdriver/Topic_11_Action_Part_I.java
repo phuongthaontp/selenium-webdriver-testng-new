@@ -9,9 +9,11 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,40 +25,29 @@ import org.testng.annotations.Test;
 public class Topic_11_Action_Part_I {
 
 	WebDriver driver;
+	Actions action; 
 	WebDriverWait expliciWait;
-	JavascriptExecutor jsExecutor;
 	String projectPath = System.getProperty("user.dir");
-	String authenChrome = projectPath + "\\autoITScript\\authen_chrome.exe";
-	String authenFirefox = projectPath + "\\autoITScript\\authen_firefox.exe";
+
 	
-	String osName = System.getProperty("os.name");
+	String osName = System.getProperty("os.name").toLowerCase();
 	Alert alert;
 	@BeforeClass
 	public void beforeClass() {
 		
 		// WIN
-		if (osName.startsWith("Windows")) {
+		if (osName.startsWith("windows")) {
 			
 			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		}
-		// MAC	
-		/*if (osName.startsWith("Mac")) {
-			
-			System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_mac");
-		}
-		else
-		{		
-			System.setProperty("webdriver.chrome.driver", projectPath + "/browserDrivers/chromedriver_linux");	
-		}
-		*/
+
 		driver = new ChromeDriver();
+		action = new Actions(driver);
 
 		// Wait cho các trạng thái của element: visible/ presence/ invisible/ staleness
 		// Visible: Phải thấy được trên UI/ Presence: Phải có ở trong HTML
 		expliciWait = new WebDriverWait(driver, 15);
 
-		// Ép kiểu tường minh
-		jsExecutor = (JavascriptExecutor) driver;
 
 		// Wait cho việc tìm element (findElement)
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -64,163 +55,90 @@ public class Topic_11_Action_Part_I {
 
 	}
 	@Test
-	public void TC_00_Login_Empty_Data() {
-		driver.get("https://demo.guru99.com/v4/index.php");
+	public void TC_01() {
 		
-		driver.findElement(By.name("btnLogin")).click();
+		driver.get("https://automationfc.github.io/jquery-tooltip/");
+		WebElement yourAgeTextbox = driver.findElement(By.id("age"));
 		
-		alert = driver.switchTo().alert();
-		
-		Assert.assertEquals(alert.getText(), "User or Password is not valid");
-		
-		alert.accept();
+		// Hover chuột vào Textbox
+		action.moveToElement(yourAgeTextbox).perform();
 		sleepInSecond(3);
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class= 'ui-tooltip-content']")).getText(), "We ask for your age only for statistical purposes.");
+		
+
 	}
 	@Test
-	public void TC_01_Accept_Alert() {
-		driver.get("https://automationfc.github.io/basic-form/index.html");
+	public void TC_02() {
 		
-		driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+		driver.get("https://www.myntra.com/");
+		
+		action.moveToElement(driver.findElement(By.xpath("//header//a[text()='Kids']"))).perform();
 		sleepInSecond(3);
 		
-		alert = driver.switchTo().alert();
-		
-		Assert.assertEquals(alert.getText(), "I am a JS Alert");
-		
-		alert.accept();
+		action.click(driver.findElement(By.xpath("//header//a[text()='Home & Bath']"))).perform();
 		sleepInSecond(3);
 		
-		Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You clicked an alert successfully");
+		Assert.assertEquals(driver.findElement(By.cssSelector("span.breadcrumbs-crumb")).getText(), "Kids Home Bath");
+		
 	}
 	@Test
-	public void TC_02_Confirm_Alert() {	
-		driver.get("https://automationfc.github.io/basic-form/index.html");
+	public void TC_03() {	
+
 		
-		driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
-		sleepInSecond(3);
 		
-		alert = driver.switchTo().alert();
-		
-		Assert.assertEquals(alert.getText(), "I am a JS Confirm");
-		
-		alert.dismiss();
-		sleepInSecond(3);
-		
-		Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You clicked: Cancel");		
 	}
 	@Test
-	public void TC_03_Prompt_Alert() {
-		driver.get("https://automationfc.github.io/basic-form/index.html");
+	public void TC_04_Click_And_Hold() {
 		
-		String textToSendkey = "Trangdth";
+		driver.get("https://automationfc.github.io/jquery-selectable/");
 		
-		driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
-		sleepInSecond(3);
+		// Khai báo tất cả 12 Elements
+		List<WebElement> listElements = driver.findElements(By.cssSelector("ol#selectable>li"));
 		
-		alert = driver.switchTo().alert();
+		// 1->4 
+		// Click and hold vào 1
+		// Hover tới 4
+		// Nhả chuột trái ra
+		// Thực thi câu lệnh
+		action.clickAndHold(listElements.get(0)).moveToElement(listElements.get(3)).release().perform();
+		sleepInSecond(1);
 		
-		Assert.assertEquals(alert.getText(), "I am a JS prompt");
-		
-		alert.sendKeys(textToSendkey);
-		sleepInSecond(3);		
-		
-		alert.accept();
-		sleepInSecond(3);
-		
-		Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You entered: "+ textToSendkey);			
+		List<WebElement> listElementsSelected = driver.findElements(By.cssSelector("ol#selectable>li.ui-selected"));
+		Assert.assertEquals(listElementsSelected.size(), 4);
 	}
 	@Test
-	public void TC_04_Authentication_Alert_I() {
-		// Cách 1: Nhập username, password vào URL
-		// http://username:password@the-internet.herokuapp.com/basic_auth
-		String username = "admin";
-		String password ="admin";
-		driver.get("http://" + username + ":" + password + "@" + "the-internet.herokuapp.com/basic_auth");
-		sleepInSecond(2);
-		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
-		sleepInSecond(2);
-	}
-	
-	@Test
-	public void TC_04_Authentication_Alert_II() {
-		String username = "admin";
-		String password ="admin";
-		driver.get("http://the-internet.herokuapp.com/");
-		String basicAuthenLink = driver.findElement(By.xpath("//a[text()='Basic Auth']")).getAttribute("href");
-		driver.get(getAuthenticateLink(basicAuthenLink, username, password));
-		sleepInSecond(3);
-		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
-	}
-	
-	@Test
-	public void TC_04_Authentication_Alert_III() {
-		String username = "admin";
-		String password ="admin";
-		driver.get("http://the-internet.herokuapp.com/");
+	public void TC_05_Click_And_Hold_Random() {
 		
-		//Script sẽ chạy trước để chờ Authen alert bật lên sau
-		if(driver.toString().contains("Firefox")) {
-	
-		//Runtime.getRuntime().exec(new String[] { authenFirefox, username, password });
-		}
-		else
+		driver.get("https://automationfc.github.io/jquery-selectable/");
+		
+		// Khai báo tất cả 12 Elements
+		List<WebElement> listElements = driver.findElements(By.cssSelector("ol#selectable>li"));
+		
+		Keys controlKey;
+		if (osName.contains("win") || osName.contains("nux"))
 		{
-		//Runtime.getRuntime().exec(new String[] { authenChrome, username, password });	
-		}	
-		driver.findElement(By.xpath("//a[text()='Basic Auth']")).click();
-		sleepInSecond(8);
-
-		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
-	}
+			controlKey = Keys.CONTROL;
+		}		
+		else
+			{
+			controlKey = Keys.COMMAND;
+			}
+			
+		// 1, 5, 12
+		// Nhấn phím Ctrl xuống, chưa nhả ra
+		// Click vào 1
+		// Click vào 5
+		// Click 11
+		// Thực thi các câu lệnh
+		// Nhả phím Ctrl ra
+		action.keyDown(controlKey).perform();
+		action.click(listElements.get(0)).click(listElements.get(4)).click(listElements.get(10)).perform();
+		action.keyUp(controlKey).perform();
+		sleepInSecond(1);
+		List<WebElement> listElementsSelected = driver.findElements(By.cssSelector("ol#selectable>li.ui-selected"));
+		Assert.assertEquals(listElementsSelected.size(), 3);
+	}	
 	
-	public String getAuthenticateLink(String url, String username, String password) {
-		String[] links = url.split("//");
-		url = links[0] + "//" + username + ":" + password + "@" + links[1];
-		return url;
-	}
-	// Hàm này giống như code trực tiếp trên Console
-	public void clickByJavascript(By by) {
-		jsExecutor.executeScript("arguments[0].click();", driver.findElement(by));
-	}
-
-    public void checkToCheckbox(By by) {
-        	if (!driver.findElement(by).isSelected());
-        	driver.findElement(by).click();
-        	
-        }
-    public void uncheckToCheckbox(By by) {
-    	if (driver.findElement(by).isSelected());
-    	driver.findElement(by).click();
-    	
-    }	
-    public void checkToRadio(By by) {
-    	if (!driver.findElement(by).isSelected());
-    	driver.findElement(by).click();
-    }
-    public boolean isElementSelected(By by) {
-    	if (driver.findElement(by).isSelected()) {
-    	return true;
-    	}
-    	else {
-    		return false;
-    	}
-    }
-    public boolean isElementDisplayed(By by) {
-    	if (driver.findElement(by).isDisplayed()) {
-    	return true;
-    	}
-    	else {
-    		return false;
-    	}
-    }
-    public boolean isElementEnabled(By by) {
-    	if (driver.findElement(by).isEnabled()) {
-    	return true;
-    	}
-    	else {
-    		return false;
-    	}
-    }
 	
 	@AfterClass
 	public void afterClass() {
