@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Suite">
+  <test name="Test">
+  
+   		<groups>
+  			 <run>
+   				 <include name ="id" ></include>
+   		     </run> 
+       	</groups>
+   		<packages> 
+   				<package name = "testNG" />
+   		</packages>
+   		<classes>
+<!--		<class name="testNG.NewTest"/>-->
+
+   		</classes>
+  </test> 
+</suite> 
