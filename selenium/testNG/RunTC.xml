@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite parallel="false" name="Suite">
-  <test name="Test">
-  
-   		<groups>
-  			 <run>
-   				 <include name ="id" ></include>
-   		     </run> 
-       	</groups>
-   		<packages> 
-   				<package name = "testNG" />
-   		</packages>
-   		<classes>
-<!--		<class name="testNG.NewTest"/>-->
+  <test name="Run on Firefox">
+  <parameter name = "browser" value = "firefox" />
+<!--   		<groups>-->
 
+     	<classes> 	
+     		<class name = "TC_01_Parameter"/>
+     	</classes>
+  </test>
+	
+	<test name="Run on Chrome">
+  		<parameter name = "browser" value = "chrome" />
+	
+		<classes> 	
+ 			<class name = "TC_01_Parameter"/>
    		</classes>
-  </test> 
-</suite> 
+  </test>
+
+
+</suite>
+
+
+
