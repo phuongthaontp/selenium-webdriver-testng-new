@@ -13,11 +13,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class Alway_Run_True {
-	private static final boolean True = false;
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 
-	@BeforeTest(alwaysRun = True)
+	@BeforeTest(alwaysRun = true)
 	public void beforeTest() {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		driver = new FirefoxDriver();
@@ -30,7 +29,7 @@ public class Alway_Run_True {
 		// Login form displayed;
 	}
 
-	@AfterTest(alwaysRun = True)
+	@AfterTest(alwaysRun = true)
 	public void afterTest() {
 		driver.quit();
 	}
