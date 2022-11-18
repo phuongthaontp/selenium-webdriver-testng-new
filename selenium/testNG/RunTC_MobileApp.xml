@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite  name="Mobile Application">-->
+<parameter name ="environment" value ="live" />
+
+
+  <test name="Run on Firefox">
+  <parameter name = "browser" value = "firefox" />
+
+
+     	<classes> 	
+    
+		<class name="Mobile.app.Login_Mobile" />
+		</classes>
+    
+  </test>
+	
+
+
+</suite>
+
+
+

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite parallel="false" name="Suite">
+<suite parallel="tests" name="Suite" thread-count="2">-->
+<parameter name ="environment" value ="live" />
+
+
   <test name="Run on Firefox">
   <parameter name = "browser" value = "firefox" />
 
 
      	<classes> 	
     
-		<class name="TC_01_Parameter" />
+		<class name="testNG.TC_01_Parameter" />
 		</classes>
     
   </test>
@@ -15,7 +18,7 @@
   		<parameter name = "browser" value = "chrome" />
 	
 		<classes> 	
- 			<class name = "TC_01_Parameter"/>
+ 			<class name = "testNG.TC_01_Parameter"/>
    		</classes>
   </test>
 

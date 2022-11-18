@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite  name="Facebook and Mobile Application">-->
+<suite-files>
+	<suite-file path = "RunTC_MobileApp.xml" />
+	<suite-file path = "RunTC_WebApp.xml" />
+
+</suite-files>
+	
+
+
+</suite>
+
+
+

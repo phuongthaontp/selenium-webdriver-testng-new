@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -25,7 +26,7 @@ public class TC_01_Parameter {
 	
 	@Parameters("browser")
 	@BeforeClass
-	public void beforeClass(String browserName) {
+	public void beforeClass(@Optional("firefox") String browserName) {
 		// if-else
 		if (browserName.equals("firefox")) {
 			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
@@ -63,10 +64,11 @@ public class TC_01_Parameter {
 		
 
 		
-	
-	@Test
-	public void TC_01_LoginToSystem() {
-		driver.get("http://live.techpanda.org/index.php/customer/account/login/");
+	@Parameters ("environment")
+	@Test// Test Method
+	public void TC_01_LoginToSystem(@Optional("live") String envName) {
+		String envUrl = getEnviromentUrl(envName);
+		driver.get(envUrl +"index.php/customer/account/login/");
 	
 		driver.findElement(emailTextbox).sendKeys("selenium_11_01@gmail.com");
 		driver.findElement(passwordTextbox).sendKeys("111111");
@@ -75,7 +77,18 @@ public class TC_01_Parameter {
 
 
 	}
-
+	public String getEnviromentUrl (String envName) {
+		if (envName.equals("dev")) {
+			return "http://dev.techpanda.org/";
+		}else if (envName.equals("test")) {
+			return "http://test.techpanda.org/";
+		}else if (envName.equals("live")) {
+			return "http://live.techpanda.org/";
+		}else
+		{
+			return null;
+		}
+	}
 	
 	@AfterClass
 	public void afterClass() {
