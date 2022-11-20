@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="tests" name="Suite" thread-count="2">-->
+
+
+	<test name = "Run with package name">
+		<packages>
+			<package name = "testNG" />
+	</packages>
+</test>
+
+
+
+
+</suite>
+
+
+
