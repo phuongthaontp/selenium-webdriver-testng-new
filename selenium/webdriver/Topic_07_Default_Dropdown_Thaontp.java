@@ -31,8 +31,7 @@ public class Topic_07_Default_Dropdown_Thaontp {
 		// Khởi tạo browser lên
 		driver = new FirefoxDriver();
 
-		// Khởi tạo sau khi driver này được sinh ra, always là như thế vì nếu k dữ liệu
-		// truyền vào sẽ báo lỗi bị null
+		// Khởi tạo sau khi driver này được sinh ra, always là như thế vì nếu k dữ liệu truyền vào sẽ báo lỗi bị null
 		// JavascriptExecutor/ WebDriverWait/ Action...
 		jsExecutor = (JavascriptExecutor) driver;
 		explicitWait = new WebDriverWait(driver, 30);
